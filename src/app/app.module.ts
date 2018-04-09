@@ -9,10 +9,13 @@ import { CatalogueItemComponent } from './catalogue-item/catalogue-item.componen
 import { LoginComponent } from './login/login.component';
 import { ShopComponent } from './shop/shop.component';
 import { RouterModule, Routes } from '@angular/router';
+import { CartContentComponent } from './cart-content/cart-content.component';
+import { CataloguePageComponent } from './catalogue-page/catalogue-page.component';
 
 const routes: Routes = [
   { path: 'shop', component: ShopComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'cart', component: CartContentComponent}
 ];
 
 @NgModule({
@@ -22,7 +25,9 @@ const routes: Routes = [
     CatalogueComponent,
     CatalogueItemComponent,
     LoginComponent,
-    ShopComponent
+    ShopComponent,
+    CartContentComponent,
+    CataloguePageComponent
   ],
   imports: [
     BrowserModule,

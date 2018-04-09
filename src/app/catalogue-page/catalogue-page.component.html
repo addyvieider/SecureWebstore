@@ -1,0 +1,4 @@
+<nav class="pagination" role="navigation" aria-label="pagination">
+  <a class="pagination-previous" (click)="previous()" [attr.disabled]="currentPage === 1 ? true : null">Previous</a>
+  <a class="pagination-next" (click)="next()" [attr.disabled]="currentPage === totalPages ? true : null">Next page</a>
+</nav>

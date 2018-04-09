@@ -1,3 +1,9 @@
-<p>
-  catalogue works!
-</p>
+<ul>
+  <li *ngFor="let product of productLoaderService.products">
+    {{ product.name }}
+  </li>
+</ul>
+<app-catalogue-page [currentPage] = "productLoaderService.currentPage"
+  [totalPages] = "productLoaderService.totalPages"
+  (changePage) = "productLoaderService.currentPage = $event">
+</app-catalogue-page>
