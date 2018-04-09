@@ -11,9 +11,6 @@ export class CatalogueComponent implements OnInit {
 
   constructor(private productLoaderService: ProductLoaderService) {
     this.productLoaderService.getProducts();
-
-    console.log(this.productLoaderService.currentPage);
-    console.log(this.productLoaderService.totalPages);
    }
 
   ngOnInit() {
