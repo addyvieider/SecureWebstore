@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from './product';
+import { HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule } from'@angular/common/http';
 
 @Injectable()
 export class ProductLoaderService {
@@ -9,7 +11,7 @@ export class ProductLoaderService {
   public pageSize: number = 1;
   public products: Product[];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   get startIndex() {
     return (this._currentPage - 1) * this.pageSize;
@@ -40,6 +42,8 @@ export class ProductLoaderService {
     this.products = [];
     this.products.push(new Product("1", "Test 1", 123));
     this.products.push(new Product("2", "Test 2", 234));
+
+    this.http.get('/products').subscribe(res => console.log(res));
 
     this.totalProducts = 2;
     this.products = this.products.slice(this.startIndex, this.startIndex+this.pageSize);
