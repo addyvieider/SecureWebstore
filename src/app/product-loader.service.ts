@@ -43,7 +43,7 @@ export class ProductLoaderService {
     this.products.push(new Product("1", "Test 1", 123));
     this.products.push(new Product("2", "Test 2", 234));
 
-    this.http.get('/products').subscribe(res => console.log(res));
+    this.http.get('/api/products').subscribe(res => console.log(res));
 
     this.totalProducts = 2;
     this.products = this.products.slice(this.startIndex, this.startIndex+this.pageSize);
