@@ -4,11 +4,11 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-app.listen(80, () => {
+app.listen(3000, () => {
     console.log('Server started!');
   });
 
-  app.route('/products').get((req, res) => {
-    res.send(201, '{id: 3, name: "testApi", price: 10}');
+  app.route('/api/products').get((req, res) => {
+    res.send(201, JSON.stringify({id: 1, name: "beerApi", price: 100}));
 });
 

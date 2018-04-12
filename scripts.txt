@@ -1,0 +1,13 @@
+Mysql:
+net start mysql
+
+nginx:
+start .\nginx
+tasklist /fi "imagename eq nginx.exe"
+nginx -s quit
+
+frontend:
+ng serve
+
+backend:
+node .\src\server\node.js
