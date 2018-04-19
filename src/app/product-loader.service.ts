@@ -9,7 +9,7 @@ export class ProductLoaderService {
 
   public totalProducts: number = 0;
   public _currentPage: number = 1;
-  public pageSize: number = 1;
+  public pageSize: number = 3;
   public products: Product[];
 
   constructor(private http: HttpClient) { }
@@ -61,7 +61,10 @@ export class ProductLoaderService {
     return new Product(
       product.id,
       product.name,
-      product.price
+      product.category,
+      product.image,
+      product.shortdesc,
+      product.description
     )
   }
 

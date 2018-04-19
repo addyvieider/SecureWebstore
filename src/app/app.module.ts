@@ -15,6 +15,7 @@ import { CartContentComponent } from './cart-content/cart-content.component';
 import { CataloguePageComponent } from './catalogue-page/catalogue-page.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/shop', pathMatch:'full' },
   { path: 'shop', component: ShopComponent },
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartContentComponent}
