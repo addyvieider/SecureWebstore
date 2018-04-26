@@ -4,10 +4,11 @@
       <div class="columns">
         <div class="column is-4 is-offset-1">
           <div class="box">
+            <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
             <h3 class="title">Login</h3>
             <div class="field">
               <div class="control has-icons-left">
-                <input class="input is-large" type="text" placeholder="Username">
+                <input class="input is-large" type="text" placeholder="Username" formControlName="username">
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
@@ -16,23 +17,124 @@
 
             <div class="field">
               <div class="control has-icons-left">
-                <input class="input is-large" type="password" placeholder="Password">
+                <input class="input is-large" type="password" placeholder="Password" formControlName="password">
                 <span class="icon is-small is-left">
                   <i class="fa fa-lock"></i>
                 </span>
               </div>
             </div>
 
-            <div class="field">
-              <label class="checkbox">
-                <input type="checkbox"> Remember me
-              </label>
-            </div>
-
             <button class="button is-block is-info is-large is-fullwidth">Login</button>
+            </form>
+
           </div>
         </div>
+
+        <div class="column is-4 is-offset-1">
+          <div class="box">
+            <form (ngSubmit)="register()" [formGroup]="registerForm">
+            <h3 class="title">Register</h3>
+
+            <div class="field">
+              <div class="control has-icons-left">
+                <input type="email" placeholder="Email" formControlName="email"
+                [ngClass]="{
+                  'input is-large is-danger': registerForm.controls.email.invalid && registerForm.controls.email.touched,
+                  'input is-large': true
+                }">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+              <p *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched" class="help is-danger">
+                Please insert correct email address
+              </p>
+            </div>
+            
+            <div class="field">
+              <div class="control has-icons-left">
+                <input type="text" placeholder="Username" formControlName="username" [ngClass]="{
+                  'input is-large is-danger': registerForm.controls.username.invalid && registerForm.controls.username.touched,
+                  'input is-large': true
+                }">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span>
+              </div>
+              <p *ngIf="registerForm.controls.username.invalid && registerForm.controls.username.touched" class="help is-danger">
+                  Please insert Username
+                </p>
+            </div>
+
+            <div class="field">
+                <div class="control has-icons-left">
+                  <input type="text" placeholder="Name" formControlName="name" [ngClass]="{
+                    'input is-large is-danger': registerForm.controls.name.invalid && registerForm.controls.name.touched,
+                    'input is-large': true
+                  }">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <p *ngIf="registerForm.controls.name.invalid && registerForm.controls.name.touched" class="help is-danger">
+                    Please insert Name
+                  </p>
+              </div>
+
+              <div class="field">
+                  <div class="control has-icons-left">
+                    <input type="text" placeholder="Surname" formControlName="surname" [ngClass]="{
+                      'input is-large is-danger': registerForm.controls.surname.invalid && registerForm.controls.surname.touched,
+                      'input is-large': true
+                    }">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-user"></i>
+                    </span>
+                  </div>
+                  <p *ngIf="registerForm.controls.surname.invalid && registerForm.controls.surname.touched" class="help is-danger">
+                      Please insert Surname
+                    </p>
+                </div>
+
+            <div formGroupName="passwordGroup" class="field">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input type="password" placeholder="Password" formControlName="password" [ngClass]="{
+                  'input is-large is-danger': passwordGroup.controls.password.invalid && passwordGroup.controls.password.touched,
+                  'input is-large': true
+                }">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+              <p *ngIf="passwordGroup.controls.password.invalid && passwordGroup.controls.password.touched" class="help is-danger">
+                  Please insert Password
+                </p>
+            </div>
+
+            <div class="field">
+              <div class="control has-icons-left">
+                <input type="password" placeholder="Repeate Password" formControlName="confirmpassword" [ngClass]="{
+                  'input is-large is-danger': passwordGroup.controls.confirmpassword.invalid && passwordGroup.controls.confirmpassword.touched,
+                  'input is-large': true
+                }">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+              <p *ngIf="passwordGroup.controls.confirmpassword.invalid && passwordGroup.controls.confirmpassword.touched" class="help is-danger">
+                  Repeated Password is not correct
+                </p>
+            </div>
+          </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Register</button>
+            </form>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+
 </section>

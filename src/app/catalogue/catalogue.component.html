@@ -10,7 +10,7 @@
   </section>
 
   <div class="columns is-multiline">
-    <div class="column is-one-third" *ngFor="let product of productLoaderService.products">
+    <div class="column is-half-tablet is-one-quarter-desktop" *ngFor="let product of productLoaderService.products">
       <app-catalogue-item [product]= product></app-catalogue-item>
     </div>
   </div>

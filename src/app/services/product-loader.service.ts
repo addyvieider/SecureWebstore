@@ -9,7 +9,7 @@ export class ProductLoaderService {
 
   public totalProducts: number = 0;
   public _currentPage: number = 1;
-  public pageSize: number = 3;
+  public pageSize: number = 4;
   public products: Product[];
 
   constructor(private http: HttpClient) { }
@@ -55,6 +55,10 @@ export class ProductLoaderService {
     );
 
 
+  }
+
+  public getProduct(id: string): Observable<Product> {
+    return this.http.get<Product>('/api/product/?id='+id);  
   }
 
   private productFactory(product: any): Product {
