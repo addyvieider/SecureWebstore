@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProductLoaderService } from '../product-loader.service';
+import { ProductLoaderService } from '../services/product-loader.service';
 
 @Component({
   selector: 'app-catalogue',

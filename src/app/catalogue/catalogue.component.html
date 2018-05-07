@@ -1,9 +1,17 @@
-<ul>
-  <li *ngFor="let product of productLoaderService.products">
-    {{ product.name }}
-  </li>
-</ul>
-<app-catalogue-page [currentPage] = "productLoaderService.currentPage"
-  [totalPages] = "productLoaderService.totalPages"
-  (changePage) = "productLoaderService.currentPage = $event">
-</app-catalogue-page>
+<div class="container">
+  <section class="hero is-small">
+    <div class="hero-body">
+      <app-catalogue-page 
+      [currentPage]="productLoaderService.currentPage" 
+      [totalPages]="productLoaderService.totalPages" 
+      (changePage)="productLoaderService.currentPage = $event">
+      </app-catalogue-page>
+    </div>
+  </section>
+
+  <div class="columns is-multiline">
+    <div class="column is-half-tablet is-one-quarter-desktop" *ngFor="let product of productLoaderService.products">
+      <app-catalogue-item [product]= product></app-catalogue-item>
+    </div>
+  </div>
+</div>

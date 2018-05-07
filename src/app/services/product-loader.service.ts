@@ -9,7 +9,7 @@ export class ProductLoaderService {
 
   public totalProducts: number = 0;
   public _currentPage: number = 1;
-  public pageSize: number = 1;
+  public pageSize: number = 4;
   public products: Product[];
 
   constructor(private http: HttpClient) { }
@@ -44,26 +44,31 @@ export class ProductLoaderService {
     //this.products.push(new Product("1", "Test 1", 123));
     //this.products.push(new Product("2", "Test 2", 234));
 
-    this.http.get('/api/products').subscribe(res => { 
+    this.http.get('/api/products?page='+this.currentPage+"&display="+this.pageSize).subscribe(res => { 
       console.log(res);
       
-      for (let p in res) {
-        console.log(res[p]);
-        this.products.push(this.productFactory(res[p]));
+      for (let p in res["products"]) {
+        this.products.push(this.productFactory(res["products"][p]));
       }
-      this.totalProducts = this.products.length;
-      this.products = this.products.slice(this.startIndex, this.startIndex+this.pageSize);
+      this.totalProducts = res["totalRows"];
     }
     );
 
 
   }
 
+  public getProduct(id: string): Observable<Product> {
+    return this.http.get<Product>('/api/product/?id='+id);  
+  }
+
   private productFactory(product: any): Product {
     return new Product(
       product.id,
       product.name,
-      product.price
+      product.category,
+      product.image,
+      product.shortdesc,
+      product.description
     )
   }
 

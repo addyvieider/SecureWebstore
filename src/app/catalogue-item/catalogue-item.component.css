@@ -1,0 +1,18 @@
+.card {
+    display:flex;
+    flex-direction: column;
+}
+
+.cart-footer {
+    margin-top: auto;
+}
+
+.card-content > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-header {
+    margin-bottom: 5px;
+}
