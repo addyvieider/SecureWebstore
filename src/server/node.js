@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -10,7 +12,7 @@ app.use(session({
   secret: 'Wow much secret very safe',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 6000 }, //secure: true } <- https
+  cookie: { maxAge: 6000, secure: true },
   rolling: true
 }));
 
@@ -20,7 +22,7 @@ app.listen(3000, () => {
 
 app.route('/api/products/').get((req, res) => {
 
-  var page = parseInt(req.query.page) || 0;
+  var page = parseInt(req.query.page) || 1;
   var display = parseInt(req.query.display) || 10;
   var skip = (page - 1) * display;
   var limit = skip + ', ' + display;
@@ -34,7 +36,6 @@ app.route('/api/products/').get((req, res) => {
     if (err) throw err;
 
     numRows = result[0].numRows;
-    console.log("HI");
 
     con = createConnection();
     con.query('SELECT * FROM product LIMIT ' + limit + ";", (err, result) => {
@@ -141,7 +142,7 @@ function createConnection() {
 
   con.connect(function (err) {
     if (err) throw err;
-    console.log("Connected!");
+    //console.log("Connected!");
   });
 
   return con;
@@ -151,7 +152,7 @@ function createConnection() {
 function endConnection(con) {
   con.end(function (err) {
     if (err) throw err;
-    console.log("Disconnected!");
+    //console.log("Disconnected!");
   });
 }
 

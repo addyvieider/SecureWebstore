@@ -8,6 +8,7 @@ nginx -s quit
 
 frontend:
 ng serve
+//ng serve --ssl 1 --ssl-key .\nginx-1.13.12\conf\ssl\server.key --ssl-cert .\nginx-1.13.12\conf\ssl\server.crt
 
 backend:
 node .\src\server\node.js
