@@ -28,19 +28,11 @@ export class AuthService {
 
   doLogin(username: string, password: string) {
 
-    this.http.post('/api/login', {
+    return this.http.post('/api/login', {
       username: username,
       password: password
     }, {
       withCredentials: true
-    }).subscribe((respone: any) => {
-      
-      console.log("Logged in");
-
-    }, (errorRespone) => {
-
-      console.log(errorRespone);
-
     });
 
   }

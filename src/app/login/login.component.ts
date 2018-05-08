@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { PasswordValidation } from './password-validation';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   passwordGroup: FormGroup;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -48,8 +49,15 @@ export class LoginComponent implements OnInit {
 
     if(this.loginForm.valid) {
 
-      this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password);
-
+      this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password).subscribe(
+        response => {
+          console.log("Logged in");
+          this.router.navigate(['shop']);
+        },
+        error => {
+          console.log(error);
+        }
+      )
 
     }
 
