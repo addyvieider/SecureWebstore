@@ -1,18 +1,22 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const session = require('express-session');
 const crypto = require('crypto');
 
 app.use(bodyParser.json());
+app.set('trust proxy', 1)
 app.use(session({
   secret: 'Wow much secret very safe',
   resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 6000, secure: true },
+  saveUninitialized: true,
+  cookie: { maxAge: 3600000 },// secure: true },
   rolling: true
 }));
+
+app.use(cors({origin: ["http://localhost:4200"], credentials: true}));
 
 app.listen(3000, () => {
   console.log('Server started!');
@@ -26,7 +30,7 @@ app.route('/api/products/').get((req, res) => {
   var limit = skip + ', ' + display;
   var numRows;
 
-  console.log(limit);
+  //console.log(limit);
 
   con = createConnection();
 
@@ -103,6 +107,11 @@ app.route('/api/register').post((req, res) => {
 
 app.route('/api/login').post((req, res) => {
 
+  if(req.session.user) {
+    res.status(409).end();
+    return;
+  }
+
   var con = createConnection();
 
   con.query('SELECT * from user WHERE username = ?', [req.body.username], (err, result) => {
@@ -116,7 +125,14 @@ app.route('/api/login').post((req, res) => {
     var hashedPw = hashPassword(req.body.password, salt);
 
     if(username === req.body.username && password.toString('hex') === hashedPw.hash.toString('hex')) {
+
+      req.session.user = {
+        username: username,
+        admin: !!result[0].admin
+      };
+
       res.status(200).end();
+
     } else {
       res.status(404).end();
     }
