@@ -7,12 +7,12 @@ const session = require('express-session');
 const crypto = require('crypto');
 
 app.use(bodyParser.json());
-app.set('trust proxy', 1)
+app.enable('trust proxy');
 app.use(session({
   secret: 'Wow much secret very safe',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 3600000 },// secure: true },
+  cookie: { maxAge: 3600000, secure: true },
   rolling: true
 }));
 
