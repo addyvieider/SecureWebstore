@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { PasswordValidation } from './password-validation';
@@ -10,11 +10,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
   providers: [AuthService]
 })
+
+
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   registerForm: FormGroup;
   passwordGroup: FormGroup;
+
+  @Output()
+  private loginEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -51,11 +56,19 @@ export class LoginComponent implements OnInit {
 
       this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password).subscribe(
         response => {
-          console.log("Logged in");
-          this.router.navigate(['shop']);
+          console.log(response);
+
+          if(response) {
+            console.log("Logged in");
+
+            this.loginEvent.emit();
+            this.router.navigate(['shop']);
+          } else {
+
+          }
         },
         error => {
-          console.log(error);
+          console.log(error);         
         }
       )
 

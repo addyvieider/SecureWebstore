@@ -15,13 +15,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { CartContentComponent } from './cart-content/cart-content.component';
 import { CataloguePageComponent } from './catalogue-page/catalogue-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
+import { AuthGuard } from './services/auth-guard';
+import { UserPageComponent } from './user-page/user-page.component';
+import { AuthService } from './services/auth.service';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/shop', pathMatch:'full' },
   { path: 'shop', component: ShopComponent },
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartContentComponent},
-  { path: 'shop/product/:id', component: ProductPageComponent}
+  { path: 'shop/product/:id', component: ProductPageComponent},
+  { path: 'user', component: UserPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -34,7 +39,8 @@ const routes: Routes = [
     ShopComponent,
     CartContentComponent,
     CataloguePageComponent,
-    ProductPageComponent
+    ProductPageComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +49,7 @@ const routes: Routes = [
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

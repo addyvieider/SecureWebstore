@@ -1,3 +1,4 @@
-<p>
-  cart-content works!
+<p *ngFor="let cartItem of cartContent">
+  {{cartItem.product.name}}
+  {{cartItem.quantity}}
 </p>

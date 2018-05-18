@@ -4,23 +4,19 @@ const crypto = require('crypto');
 module.exports = {
 
     login: function(req, res) {
-        if (req.session.user) {
-            res.status(409).end();
-            return;
-        }
 
-        var con = dbConnector.createConnection();
+        let con = dbConnector.createConnection();
 
         con.query('SELECT * from user WHERE username = ?', [req.body.username], (err, result) => {
 
             if (err) console.log(err);
 
-            var userFound = !!result[0];
-            var username = userFound ? result[0].username : null;
-            var salt = userFound ? result[0].salt : null;
-            var password = userFound ? result[0].password : null;
+            let userFound = !!result[0];
+            let username = userFound ? result[0].username : null;
+            let salt = userFound ? result[0].salt : null;
+            let password = userFound ? result[0].password : null;
 
-            var hashedPw = hashPassword(req.body.password, salt);
+            let hashedPw = hashPassword(req.body.password, salt);
 
             if (userFound && username === req.body.username && password.toString('hex') === hashedPw.hash.toString('hex')) {
 
@@ -29,10 +25,10 @@ module.exports = {
                     admin: !!result[0].admin
                 };
 
-                res.status(200).end();
+                res.status(200).send(JSON.stringify(req.session.user));
 
             } else {
-                res.status(404).end();
+                res.status(204).send();
             }
         });
 
@@ -41,8 +37,9 @@ module.exports = {
 
 
     register: function(req, res) {
-        var con = dbConnector.createConnection();
-        var hashedPw = hashPassword(req.body.password);
+
+        let con = dbConnector.createConnection();
+        let hashedPw = hashPassword(req.body.password);
       
         con.query('INSERT into user values (?,?,?,?,?,?)', [req.body.username, 
           hashedPw.hash, 
@@ -60,6 +57,26 @@ module.exports = {
       
         dbConnector.endConnection(con);
 
+    }, 
+
+
+    logout: function(req, res) {
+
+        console.log("logout");
+
+        if(req.session.user) {
+            req.session.regenerate(err => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send(err);
+                } else {
+                    res.status(200).end();
+                }
+            });
+        } else {
+            console.log("not found");
+            res.status(404).end();
+        }
     }
 
 }

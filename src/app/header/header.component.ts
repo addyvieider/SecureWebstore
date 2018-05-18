@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  providers: [AuthService]
 })
 export class HeaderComponent implements OnInit {
 
   title = 'Web Store';
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+
     document.addEventListener('DOMContentLoaded', function () {
 
       // Get all "navbar-burger" elements
@@ -39,5 +42,4 @@ export class HeaderComponent implements OnInit {
     });
 
   }
-
 }

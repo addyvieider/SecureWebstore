@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { subscribeOn } from 'rxjs/operator/subscribeOn';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AuthService {
 
   constructor(private http: HttpClient) { }
+
+  private username: string = "username";
+  private admin: string = "admin";
 
   doRegister(email: string, username: string, password: string, name: string, surname: string) {
 
@@ -14,41 +21,60 @@ export class AuthService {
       password: password,
       name: name,
       surname: surname
-    }).subscribe((respone: any) => {
+    }).map((respone: any) => {
 
       console.log("Registered");
+      return respone;
 
-    }, (errorRespone) => {
+    }).catch(error => {
 
-      console.log(errorRespone);
+      console.log(error);
+      return error;
 
     });
 
   }
 
-  doLogin(username: string, password: string) {
+  doLogin(username: string, password: string): Observable<any> {
 
     return this.http.post('/api/login', {
       username: username,
       password: password
     }, {
       withCredentials: true
+    }).map((res: Response) => {
+      console.log(res);
+      if(res) {
+        localStorage.setItem(this.username, res[this.username]);
+        localStorage.setItem(this.admin, res[this.admin]);
+      }
+      return res;
+    }).catch(error => {
+      console.log(error);
+      return error;
     });
 
   }
 
-  getLogin() {
-    this.http.get('/api/login', 
-    {withCredentials: true
-    }).subscribe((response: any) =>{
+  logOut(): Observable<any> {
 
-      return true;
-
-    }, (errprRespone) => {
-
-      return false;
-
+    return this.http.post('/api/logout', {},
+    {
+      withCredentials: true
+    }).map((res: Response) => {
+      console.log(res);
+      localStorage.clear();
+      
+      return res;
+    }).catch(err => {
+      console.log(err);
+      return err;
     });
+
+  }
+
+  get loggedIn(): boolean {
+    return !!localStorage.getItem(this.username);
   }
 
 }

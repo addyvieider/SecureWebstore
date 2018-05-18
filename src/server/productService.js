@@ -3,11 +3,12 @@ const dbConnector = require('./dbConnector.js');
 module.exports = {
 
   getProducts: function (req, res) {
-    var page = parseInt(req.query.page) || 1;
-    var display = parseInt(req.query.display) || 10;
-    var skip = (page - 1) * display;
-    var limit = skip + ', ' + display;
-    var numRows;
+
+    let page = parseInt(req.query.page) || 1;
+    let display = parseInt(req.query.display) || 10;
+    let skip = (page - 1) * display;
+    let limit = skip + ', ' + display;
+    let numRows;
 
     //console.log(limit);
 
@@ -37,7 +38,7 @@ module.exports = {
   },
 
   getProduct: function (req, res) {
-    var con = dbConnector.createConnection();
+    let con = dbConnector.createConnection();
 
     con.query('SELECT * FROM product WHERE id = ?', [req.query.id], (err, result) => {
       if (err) throw err;
