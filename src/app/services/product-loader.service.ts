@@ -3,6 +3,7 @@ import { Product } from './product';
 import { HttpModule, Response } from '@angular/http';
 import { HttpClient, HttpClientModule } from'@angular/common/http';
 import { Observable } from 'rxjs';
+import { Package } from './package';
 
 @Injectable()
 export class ProductLoaderService {
@@ -57,19 +58,26 @@ export class ProductLoaderService {
 
   }
 
-  public getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>('/api/product/?id='+id);  
+  public getProduct(id: string): Observable<Product[]> {
+    return this.http.get<Product[]>('/api/product/?id='+id);  
   }
 
-  private productFactory(product: any): Product {
+  public productFactory(product: any): Product {
     return new Product(
       product.id,
       product.name,
-      product.category,
       product.image,
       product.shortdesc,
       product.description
     )
+  }
+
+  public packageFactory(pack: any): Package {
+    return new Package(
+      pack.package_name,
+      pack.package_amount,
+      pack.price
+    );
   }
 
 }

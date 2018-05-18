@@ -19,7 +19,7 @@
               <div class="control">
                 <div class="select is-medium">
                 <select formControlName="packageType">
-                  <option *ngFor="let pack of packageTypes" [ngValue]="pack">{{pack}}</option>
+                  <option *ngFor="let pack of packageTypes" [ngValue]="pack">{{pack.name}} ({{pack.amount}})</option>
                 </select>
               </div>
               </div>
@@ -27,6 +27,7 @@
               <input class="input is-medium" type="number" min=1 value="1" formControlName="quantity">
             </div>
             </div>
+            <p class="is-size-4">Price: {{selectionForm.value.quantity * selectionForm.value.packageType.price}}€</p>
             <a class="button is-medium is-dark" (click)="addToCart()">
               <span class="icon">
                 <i class="fa fa-shopping-cart"></i>

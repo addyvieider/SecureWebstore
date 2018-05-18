@@ -40,14 +40,18 @@ module.exports = {
   getProduct: function (req, res) {
     let con = dbConnector.createConnection();
 
-    con.query('SELECT * FROM product WHERE id = ?', [req.query.id], (err, result) => {
+    con.query('SELECT * FROM ((product inner join product_package on product.id = product_package.product)' +
+      'inner join package on product_package.package = package.package_name)' +
+      'WHERE product.id = ? ORDER BY product_package.price ASC', [req.query.id], (err, result) => {
       if (err) throw err;
+
+      console.log(result);
 
       //console.log('Data received from Db:\n');
       //console.log(result);
 
       res.setHeader('Content-Type', 'application/json');
-      res.status(200).send(JSON.stringify(result[0]));
+      res.status(200).send(JSON.stringify(result));
 
 
     });
