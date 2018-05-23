@@ -26,6 +26,16 @@ module.exports = {
                     admin: admin
                 };
 
+                req.session.save(err => {
+
+                    console.log("saved");
+
+                    if(err) {
+                        console.log(err);
+                    }
+
+                });
+
                 res.status(200).send(JSON.stringify(req.session.user));
 
             } else {

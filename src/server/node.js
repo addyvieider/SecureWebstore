@@ -3,16 +3,19 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 const helmet = require('helmet');
+const dbConnector = require('./dbConnector');
 const authService = require('./authService.js');
 const productService = require('./productService');
 
 app.use(bodyParser.json());
 app.enable('trust proxy');
 app.use(session({
+  store: new MySQLStore(dbConnector.options),
   secret: 'Wow much secret very safe',
-  resave: false,
-  saveUninitialized: true,
+  resave: true,
+  saveUninitialized: false,
   cookie: { maxAge: 3600000, secure: true },
   rolling: true
 }));
