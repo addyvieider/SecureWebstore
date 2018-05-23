@@ -23,9 +23,7 @@ export class CartService {
 
       for(let itemInCart of cart) {
 
-        console.log(itemInCart);
-
-        if(itemInCart.product.id == product.id) {
+        if(itemInCart.product.id == product.id && itemInCart.packageType['name'] == packageType['name']) {
           console.log("Already in cart");
           itemAlreadyInCart = true;
           break;
@@ -33,14 +31,36 @@ export class CartService {
       }
 
       if(!itemAlreadyInCart) {
-        cart.push(new CartItem(product,quantity));
+        cart.push(new CartItem(product, packageType, quantity));
         localStorage.setItem(this.cartName, JSON.stringify(cart));
       }
       
     } else {
-      localStorage.setItem(this.cartName, JSON.stringify([new CartItem(product,quantity)]));
+      let cart = [new CartItem(product, packageType, quantity)];
+      localStorage.setItem(this.cartName, JSON.stringify(cart));
     }
 
+  }
+
+  deleteFromCart(item: CartItem): CartItem[] {
+
+    let cartJson = localStorage.getItem(this.cartName);
+    
+    if(cartJson) {
+      let cart: CartItem[] = JSON.parse(cartJson);
+
+      let newCart: CartItem[] = [];
+      cart.forEach(cartItem => {
+        if(cartItem.product.id != item.product.id || cartItem.packageType['name'] != item.packageType['name']) {
+          newCart.push(cartItem);
+        }
+      })
+
+      localStorage.setItem(this.cartName, JSON.stringify(newCart));
+      return newCart;
+    }
+
+    return[];
   }
 
 
@@ -54,6 +74,5 @@ export class CartService {
     }
 
   }
-
 
 }

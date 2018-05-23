@@ -45,7 +45,7 @@ module.exports = {
       'WHERE product.id = ? ORDER BY product_package.price ASC', [req.query.id], (err, result) => {
       if (err) throw err;
 
-      console.log(result);
+      //console.log(result);
 
       //console.log('Data received from Db:\n');
       //console.log(result);

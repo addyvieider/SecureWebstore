@@ -21,6 +21,7 @@ export class UserPageComponent implements OnInit {
     this.authService.logOut().subscribe(() => {
       this.router.navigate(['shop']);
     }, error => {
+      this.router.navigate(['login']);
       console.log(error);
     });
   }

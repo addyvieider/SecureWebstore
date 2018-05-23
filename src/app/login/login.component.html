@@ -8,20 +8,35 @@
             <h3 class="title">Login</h3>
             <div class="field">
               <div class="control has-icons-left">
-                <input class="input is-large" type="text" placeholder="Username" formControlName="username">
+                <input type="text" placeholder="Username" formControlName="username" [ngClass]="{
+                  'input is-large is-danger': loginForm.controls.username.invalid && loginForm.controls.username.touched,
+                  'input is-large': true
+                }">
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
               </div>
+              <p *ngIf="loginForm.controls.username.invalid && loginForm.controls.username.touched" class="help is-danger">
+                Please insert Username
+              </p>
             </div>
 
             <div class="field">
               <div class="control has-icons-left">
-                <input class="input is-large" type="password" placeholder="Password" formControlName="password">
+                <input type="password" placeholder="Password" formControlName="password" [ngClass]="{
+                  'input is-large is-danger': loginForm.controls.password.invalid && loginForm.controls.password.touched,
+                  'input is-large': true
+                }">
                 <span class="icon is-small is-left">
                   <i class="fa fa-lock"></i>
                 </span>
               </div>
+              <p *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched" class="help is-danger">
+                Please insert Password
+              </p>
+              <p *ngIf="badLogin" class="help is-danger">
+                Wrong Username or Password
+              </p>
             </div>
 
             <button type="submit" class="button is-block is-info is-large is-fullwidth">Login</button>

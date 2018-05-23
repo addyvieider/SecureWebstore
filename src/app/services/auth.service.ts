@@ -11,11 +11,12 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   private username: string = "username";
-  private admin: string = "admin";
 
-  doRegister(email: string, username: string, password: string, name: string, surname: string) {
+  doRegister(email: string, username: string, password: string, name: string, surname: string): Observable<any> {
 
-    this.http.post('/api/register', {
+    console.log(password);
+
+    return this.http.post('/api/register', {
       email: email,
       username: username,
       password: password,
@@ -43,10 +44,8 @@ export class AuthService {
     }, {
       withCredentials: true
     }).map((res: Response) => {
-      console.log(res);
       if(res) {
         localStorage.setItem(this.username, res[this.username]);
-        localStorage.setItem(this.admin, res[this.admin]);
       }
       return res;
     }).catch(error => {
@@ -67,6 +66,7 @@ export class AuthService {
       
       return res;
     }).catch(err => {
+      localStorage.clear();
       console.log(err);
       return err;
     });
@@ -75,6 +75,20 @@ export class AuthService {
 
   get loggedIn(): boolean {
     return !!localStorage.getItem(this.username);
+  }
+
+  async isAdmin(): Promise<boolean> {
+
+    return await this.http.get('/api/admin', 
+    {
+      withCredentials: true
+    }).map((res: Response) => {
+      if(res) {
+        return !!res;
+      } else {
+        return false;
+      }
+    }).toPromise();
   }
 
 }

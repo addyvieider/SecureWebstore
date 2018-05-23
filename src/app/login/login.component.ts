@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   passwordGroup: FormGroup;
 
+  badLogin: boolean = false;
+
   @Output()
   private loginEvent: EventEmitter<any> = new EventEmitter();
 
@@ -56,15 +58,13 @@ export class LoginComponent implements OnInit {
 
       this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password).subscribe(
         response => {
-          console.log(response);
-
           if(response) {
             console.log("Logged in");
 
             this.loginEvent.emit();
             this.router.navigate(['shop']);
           } else {
-
+            this.badLogin = true;
           }
         },
         error => {
@@ -81,7 +81,10 @@ export class LoginComponent implements OnInit {
     if(this.registerForm.valid) {
 
       this.authService.doRegister(this.registerForm.value.email, this.registerForm.value.username, 
-        this.registerForm.value.password, this.registerForm.value.name, this.registerForm.value.surname);
+        this.passwordGroup.value.password, this.registerForm.value.name, this.registerForm.value.surname).subscribe(
+          response => {
+            this.registerForm.reset();
+          });;
 
     }
 

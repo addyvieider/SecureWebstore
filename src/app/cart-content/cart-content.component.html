@@ -1,4 +1,32 @@
-<p *ngFor="let cartItem of cartContent">
-  {{cartItem.product.name}}
-  {{cartItem.quantity}}
-</p>
+<table class="table is-striped is-fullwidth">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Package</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cartItem of cartContent">
+      <td>
+        <figure class="image is-48x48">
+          <img src="./assets/img/{{ cartItem.product.image }}">
+        </figure>
+      </td>
+      <td>{{cartItem.product.name}}</td>
+      <td>{{cartItem.packageType.name}}</td>
+      <td>{{cartItem.quantity}}</td>
+      <td>{{cartItem.quantity * cartItem.packageType.price}}€</td>
+      <td><a class="delete" (click)="deleteFromCart(cartItem)"></a></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">Total</td>
+      <td colspan="2">{{ calcTotal() }}€</td>
+    </tr>
+  </tfoot>
+</table>

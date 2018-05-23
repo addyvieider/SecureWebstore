@@ -15,9 +15,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CartContentComponent } from './cart-content/cart-content.component';
 import { CataloguePageComponent } from './catalogue-page/catalogue-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
-import { AuthGuard } from './services/auth-guard';
+import { AuthGuard } from './guards/auth-guard';
 import { UserPageComponent } from './user-page/user-page.component';
 import { AuthService } from './services/auth.service';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './guards/admin.guard';
+import { CartService } from './services/cart.service';
 
 
 const routes: Routes = [
@@ -26,7 +29,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartContentComponent},
   { path: 'shop/product/:id', component: ProductPageComponent},
-  { path: 'user', component: UserPageComponent, canActivate: [AuthGuard]}
+  { path: 'user', component: UserPageComponent, canActivate: [AuthGuard]},
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
 ];
 
 @NgModule({
@@ -40,7 +44,8 @@ const routes: Routes = [
     CartContentComponent,
     CataloguePageComponent,
     ProductPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,7 @@ const routes: Routes = [
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, AdminGuard, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
