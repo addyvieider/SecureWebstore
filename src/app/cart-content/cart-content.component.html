@@ -26,7 +26,8 @@
   <tfoot>
     <tr>
       <td colspan="4">Total</td>
-      <td colspan="2">{{ calcTotal() }}€</td>
+      <td>{{ calcTotal() }}€</td>
+      <td><a class="button is-dark" *ngIf="canCheckout()" (click)="checkout()">Check out</a></td>
     </tr>
   </tfoot>
 </table>

@@ -1,0 +1,97 @@
+<div class="columns">
+  <div class="column">
+    <form novalidate (ngSubmit)="checkout()" [formGroup]="checkoutForm">
+      <div class="panel">
+        <p class="panel-heading">Order</p>
+        <div class="panel-block">
+          <div class="control">
+            <input formControlName="firstname" placeholder="First Name" [ngClass]="{
+              'input is-danger': checkoutForm.controls.firstname.invalid && checkoutForm.controls.firstname.touched,
+              'input': true
+            }">
+            <p *ngIf=" checkoutForm.controls.firstname.invalid && checkoutForm.controls.firstname.touched" class="help is-danger">
+                Please insert First Name
+              </p>
+          </div>
+        </div>
+        <div class="panel-block">
+          <div class="control">
+            <input formControlName="secondname" placeholder="Second Name" [ngClass]="{
+              'input is-danger': checkoutForm.controls.secondname.invalid && checkoutForm.controls.secondname.touched,
+              'input': true
+            }">
+            <p *ngIf=" checkoutForm.controls.secondname.invalid && checkoutForm.controls.secondname.touched" class="help is-danger">
+                Please insert Second Name
+              </p>
+          </div>
+        </div>
+        <div class="panel-block">
+          <div class="control">
+            <input formControlName="zip" placeholder="ZIP Code" [ngClass]="{
+              'input is-danger': checkoutForm.controls.zip.invalid && checkoutForm.controls.zip.touched,
+              'input': true
+            }">
+            <p *ngIf=" checkoutForm.controls.zip.invalid && checkoutForm.controls.zip.touched" class="help is-danger">
+                Please insert ZIP Code
+              </p>
+          </div>
+          <div class="control">
+            <input formControlName="city" placeholder="City" [ngClass]="{
+              'input is-danger': checkoutForm.controls.city.invalid && checkoutForm.controls.city.touched,
+              'input': true
+            }">
+            <p *ngIf=" checkoutForm.controls.city.invalid && checkoutForm.controls.city.touched" class="help is-danger">
+                Please insert City
+              </p>
+          </div>
+          <div class="control">
+            <input formControlName="address" placeholder="Street + Nr" [ngClass]="{
+              'input is-danger': checkoutForm.controls.address.invalid && checkoutForm.controls.address.touched,
+              'input': true
+            }">
+            <p *ngIf=" checkoutForm.controls.address.invalid && checkoutForm.controls.address.touched" class="help is-danger">
+                Please insert Address
+              </p>
+          </div>
+        </div>
+        <div class="panel-block">
+          <button class="button is-fullwidth is-dark">
+            Check out
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="column">
+    <table class="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product</th>
+          <th>Package</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cartItem of cartContent">
+          <td>
+            <figure class="image is-48x48">
+              <img src="./assets/img/{{ cartItem.product.image }}">
+            </figure>
+          </td>
+          <td>{{cartItem.product.name}}</td>
+          <td>{{cartItem.packageType.name}}</td>
+          <td>{{cartItem.quantity}}</td>
+          <td>{{cartItem.quantity * cartItem.packageType.price}}€</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">Total</td>
+          <td colspan="2">{{ calcTotal() }}€</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

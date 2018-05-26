@@ -24,7 +24,9 @@ module.exports = {
 
     endConnection : function (con) {
         con.end(function (err) {
-            if (err) throw err;
+            if (err) {
+                console.log(err);
+            }
             //console.log("Disconnected!");
         });
     }

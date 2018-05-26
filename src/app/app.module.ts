@@ -15,12 +15,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { CartContentComponent } from './cart-content/cart-content.component';
 import { CataloguePageComponent } from './catalogue-page/catalogue-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
-import { AuthGuard } from './guards/auth-guard';
+import { AuthGuard } from './guards/auth.guard';
 import { UserPageComponent } from './user-page/user-page.component';
 import { AuthService } from './services/auth.service';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
 import { CartService } from './services/cart.service';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
   { path: 'cart', component: CartContentComponent},
   { path: 'shop/product/:id', component: ProductPageComponent},
   { path: 'user', component: UserPageComponent, canActivate: [AuthGuard]},
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
+  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -45,7 +47,8 @@ const routes: Routes = [
     CataloguePageComponent,
     ProductPageComponent,
     UserPageComponent,
-    AdminComponent
+    AdminComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

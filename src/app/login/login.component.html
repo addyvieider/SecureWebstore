@@ -79,6 +79,9 @@
               <p *ngIf="registerForm.controls.username.invalid && registerForm.controls.username.touched" class="help is-danger">
                   Please insert Username
                 </p>
+                <p *ngIf="userExistend && registerForm.controls.username.touched" class="help is-danger">
+                  Username already existend
+                </p>
             </div>
 
             <div class="field">

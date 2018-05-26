@@ -14,8 +14,6 @@ export class AuthService {
 
   doRegister(email: string, username: string, password: string, name: string, surname: string): Observable<any> {
 
-    console.log(password);
-
     return this.http.post('/api/register', {
       email: email,
       username: username,
@@ -26,11 +24,6 @@ export class AuthService {
 
       console.log("Registered");
       return respone;
-
-    }).catch(error => {
-
-      console.log(error);
-      return error;
 
     });
 
@@ -74,7 +67,31 @@ export class AuthService {
   }
 
   get loggedIn(): boolean {
+
     return !!localStorage.getItem(this.username);
+
+  }
+
+  async getLoggedIn(): Promise<boolean> {
+
+    return await this.http.get('/api/login', {
+      withCredentials: true
+    }).map((res: Response) => {
+      if(res) {
+
+        return !!res;
+      
+      } else {
+        
+        if(!!localStorage.getItem(this.username)){
+          alert("Invalid session");
+          localStorage.clear();
+        }
+
+        return false;
+      }
+    }).toPromise();
+
   }
 
   async isAdmin(): Promise<boolean> {

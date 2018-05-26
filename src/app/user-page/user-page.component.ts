@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { CheckoutService } from '../services/checkout.service';
 
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
-  providers: [AuthService]
+  providers: [AuthService, CheckoutService]
 })
 export class UserPageComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private checkoutService: CheckoutService, private router: Router) { }
+
+  private orders = [];
 
   ngOnInit() {
+    this.checkoutService.getOrders().subscribe(res => {
+      this.orders = JSON.parse(res);
+    }, err => {
+      console.log(err);
+    })
   }
 
   logout() {

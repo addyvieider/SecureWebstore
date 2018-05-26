@@ -1,1 +1,24 @@
-<button (click)="logout()">Log out</button>
+<table class="table is-striped">
+    <thead>
+        <tr>
+            <td>
+                Name
+            </td>
+            <td>
+                Address
+            </td>
+            <td>
+                Price
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{ order["name"] }}</td>
+            <td>{{ order["address"] }}</td>
+            <td>{{ order["price"] }}€</td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="button is-dark" (click)="logout()">Log out</a> 

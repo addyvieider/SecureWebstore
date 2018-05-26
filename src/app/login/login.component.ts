@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   passwordGroup: FormGroup;
 
   badLogin: boolean = false;
+  userExistend: boolean = false;
 
   @Output()
   private loginEvent: EventEmitter<any> = new EventEmitter();
@@ -84,6 +85,12 @@ export class LoginComponent implements OnInit {
         this.passwordGroup.value.password, this.registerForm.value.name, this.registerForm.value.surname).subscribe(
           response => {
             this.registerForm.reset();
+            this.userExistend = false;
+            alert("Registered");
+          }, err => {
+            if(err.status == 409) {
+              this.userExistend = true;
+            }
           });;
 
     }

@@ -26,7 +26,7 @@ module.exports = {
                     admin: admin
                 };
 
-                req.session.save(err => {
+                /*req.session.save(err => {
 
                     console.log("saved");
 
@@ -34,7 +34,7 @@ module.exports = {
                         console.log(err);
                     }
 
-                });
+                });*/
 
                 res.status(200).send(JSON.stringify(req.session.user));
 
@@ -61,7 +61,14 @@ module.exports = {
             req.body.surname],
             (err, result) => {
 
-                if (err) console.log(err);
+                if (err) {
+                    if('ER_DUP_ENTRY' == err.code) {
+                        res.status(409).end();
+                    } else {
+                        res.status(500).end();
+                    }
+                    return;
+                }
 
                 res.status(200).end();
 
@@ -74,7 +81,7 @@ module.exports = {
 
     logout: function (req, res) {
 
-        if (req.session.user) {
+        if (req.session && req.session.user) {
             req.session.regenerate(err => {
                 if (err) {
                     console.log(err);
@@ -82,7 +89,7 @@ module.exports = {
                 } else {
                     res.status(200).end();
                 }
-            });
+            }); 
         } else {
             console.log("not found");
             res.status(404).end();
@@ -91,12 +98,22 @@ module.exports = {
 
     isAdmin: function (req, res) {
 
-        if (req.session.user) {
+        if (req.session && req.session.user) {
             res.status(200).send(JSON.stringify(req.session.user.admin));
         } else {
             res.status(200).send(JSON.stringify(false));
         }
 
+    },
+
+    isLoggedIn: function (req, res) {
+    
+        if(req.session && req.session.user) {
+            res.status(200).send(JSON.stringify(req.session.user.username));
+        } else {
+            res.status(200).send(JSON.stringify(false));
+        }
+    
     }
 
 }

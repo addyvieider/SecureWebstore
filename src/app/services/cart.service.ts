@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { CartItem } from './cartItem';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CartService {
@@ -24,7 +25,7 @@ export class CartService {
       for(let itemInCart of cart) {
 
         if(itemInCart.product.id == product.id && itemInCart.packageType['name'] == packageType['name']) {
-          console.log("Already in cart");
+          alert(product.name + " (" + packageType['name'] + ") is already in the Cart");
           itemAlreadyInCart = true;
           break;
         } 
@@ -33,11 +34,13 @@ export class CartService {
       if(!itemAlreadyInCart) {
         cart.push(new CartItem(product, packageType, quantity));
         localStorage.setItem(this.cartName, JSON.stringify(cart));
+        alert(product.name + " (" + packageType['name'] + ") has been added to the Cart");
       }
       
     } else {
       let cart = [new CartItem(product, packageType, quantity)];
       localStorage.setItem(this.cartName, JSON.stringify(cart));
+      alert(product.name + " (" + packageType['name'] + ") has been added to the Cart");
     }
 
   }
@@ -72,6 +75,23 @@ export class CartService {
     } else {
       return [];
     }
+
+  }
+
+  clearCart() {
+
+    localStorage.removeItem(this.cartName);
+
+  }
+
+  calcTotal(cartContent: CartItem[]): number{
+
+    let total = 0;
+    cartContent.forEach(item => {
+      total += item.quantity * item.packageType['price'];
+    });
+
+    return total;
 
   }
 

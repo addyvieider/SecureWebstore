@@ -47,8 +47,10 @@ export class ProductPageComponent implements OnInit {
   addToCart() {
 
     if(this.selectionForm.valid) {
-      console.log(this.selectionForm.value.packageType);
+      //console.log(this.selectionForm.value.packageType);
       this.cartService.addToCart(this.product, this.selectionForm.value.packageType, this.selectionForm.value.quantity);
+
+      console.log(this.cartService.getCartContent());
     }
 
   }
