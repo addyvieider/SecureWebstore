@@ -5,7 +5,7 @@ module.exports = {
 
     insertProduct: function(req,res) {
 
-        con = dbConnector.createConnection();
+        let con = dbConnector.createConnection();
 
         //nella query l'immagine viene inserita tramite LOAD_FILE(), il parametro di LOAD_FILE() deve essere il path dell'immagine. 
         //Per esempio LOAD_FILE("C:/images/img.png")
