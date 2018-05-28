@@ -4,6 +4,8 @@ module.exports = {
 
   getProducts: function (req, res) {
 
+    console.log("getprod");
+
     let page = parseInt(req.query.page) || 1;
     let display = parseInt(req.query.display) || 10;
     let skip = (page - 1) * display;
@@ -38,6 +40,9 @@ module.exports = {
   },
 
   getProduct: function (req, res) {
+
+    console.log("getsingleprod");
+
     let con = dbConnector.createConnection();
 
     con.query('SELECT * FROM ((product inner join product_package on product.id = product_package.product)' +

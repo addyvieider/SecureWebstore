@@ -42,4 +42,8 @@ export class HeaderComponent implements OnInit {
     });
 
   }
+
+  loggedIn() {
+    return this.authService.loggedIn;
+  }
 }

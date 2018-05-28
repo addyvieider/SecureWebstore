@@ -5,6 +5,8 @@ module.exports = {
 
     login: function (req, res) {
 
+        console.log("login");
+
         let con = dbConnector.createConnection();
 
         con.query('SELECT * from user WHERE username = ?', [req.body.username], (err, result) => {
@@ -49,6 +51,8 @@ module.exports = {
 
     register: function (req, res) {
 
+        console.log("register");
+
         let con = dbConnector.createConnection();
         let hashedPw = hashPassword(req.body.password);
 
@@ -81,6 +85,8 @@ module.exports = {
 
     logout: function (req, res) {
 
+        console.log("logout");
+
         if (req.session && req.session.user) {
             req.session.regenerate(err => {
                 if (err) {
@@ -98,6 +104,8 @@ module.exports = {
 
     isAdmin: function (req, res) {
 
+        console.log("isadmin");
+
         if (req.session && req.session.user) {
             res.status(200).send(JSON.stringify(req.session.user.admin));
         } else {
@@ -107,6 +115,8 @@ module.exports = {
     },
 
     isLoggedIn: function (req, res) {
+
+        console.log("islogin");
     
         if(req.session && req.session.user) {
             res.status(200).send(JSON.stringify(req.session.user.username));

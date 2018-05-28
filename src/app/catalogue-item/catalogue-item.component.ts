@@ -9,7 +9,7 @@ import { Product } from '../services/product';
 export class CatalogueItemComponent implements OnInit {
 
   @Input()
-  private product: Product;
+  product: Product;
 
   constructor() { }
 

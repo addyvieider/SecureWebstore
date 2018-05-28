@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class CartContentComponent implements OnInit {
 
-  private cartContent : CartItem[]; 
+  cartContent : CartItem[]; 
 
   constructor(private cartService: CartService, private router: Router, private authService: AuthService) { }
 

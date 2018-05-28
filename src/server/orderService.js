@@ -5,6 +5,8 @@ module.exports = {
 
     placeOrder: function (req, res) {
 
+        console.log("placeorder");
+
         if (req.session && req.session.user) {
 
             if (req.body.orderItems && req.body.orderItems.length > 0 && req.body.name && req.body.address) {
@@ -65,6 +67,8 @@ module.exports = {
 
     getOrders: function (req, res) {
 
+        console.log("getorder");
+
         if (req.session && req.session.user) {
             let con = dbConnector.createConnection();
             con.query('SELECT name, address, price from order_collection ' +
@@ -76,8 +80,7 @@ module.exports = {
                         return;
                     }
 
-                    res.json(JSON.stringify(result));
-                    res.status(200).send();
+                    res.status(200).send(JSON.stringify(result));
 
                     dbConnector.endConnection(con);
 

@@ -14,7 +14,7 @@ import { Package } from '../services/package';
 })
 export class ProductPageComponent implements OnInit {
 
-  private product: Product;
+  product: Product;
   private selectionForm: FormGroup;
   private packageTypes: Package[];
 

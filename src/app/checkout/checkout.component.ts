@@ -14,8 +14,8 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private checkoutService: CheckoutService, private cartService: CartService) { }
 
-  private cartContent : CartItem[]; 
-  private checkoutForm: FormGroup;
+  cartContent : CartItem[]; 
+  checkoutForm: FormGroup;
 
   ngOnInit() {
     this.cartContent = this.cartService.getCartContent();

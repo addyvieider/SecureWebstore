@@ -9,7 +9,10 @@ import { ProductLoaderService } from '../services/product-loader.service';
 })
 export class CatalogueComponent implements OnInit {
 
-  constructor(private productLoaderService: ProductLoaderService) {
+  productLoaderService: ProductLoaderService;
+
+  constructor(productLoaderService: ProductLoaderService) {
+    this.productLoaderService = productLoaderService;
     this.productLoaderService.getProducts();
    }
 

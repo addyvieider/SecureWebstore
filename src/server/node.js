@@ -24,6 +24,25 @@ app.use(session({
 app.use(cors({origin: ["http://localhost:4200", "http://localhost:3000"], credentials: true}));
 app.use(helmet());
 
+app.use(function(req,res,next) {
+
+  let err = null;
+  try {
+    decodeURI(req.path);
+  } catch(e) {
+    err = e;
+  }
+
+  if(err) {
+    console.log(err);
+    res.status(400).end();
+    return;
+  }
+
+  next();
+
+});
+
 app.use((req, res, next) => {
   if (req.cookies && req.cookies.user_sid && !req.session.user) {
       res.clearCookie('user_sid');        

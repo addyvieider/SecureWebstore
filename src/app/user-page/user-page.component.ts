@@ -13,7 +13,7 @@ export class UserPageComponent implements OnInit {
 
   constructor(private authService: AuthService, private checkoutService: CheckoutService, private router: Router) { }
 
-  private orders = [];
+  orders = [];
 
   ngOnInit() {
     this.checkoutService.getOrders().subscribe(res => {

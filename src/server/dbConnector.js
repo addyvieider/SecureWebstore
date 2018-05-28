@@ -11,8 +11,9 @@ module.exports = {
 
     createConnection : function () {
 
-        let con = mysql.createConnection(this.options);
+        //console.log("Try connect");
 
+        let con = mysql.createConnection(this.options);
         con.connect(function (err) {
             if (err) throw err;
             //console.log("Connected!");
@@ -23,6 +24,7 @@ module.exports = {
     },
 
     endConnection : function (con) {
+        //console.log("Try end");
         con.end(function (err) {
             if (err) {
                 console.log(err);

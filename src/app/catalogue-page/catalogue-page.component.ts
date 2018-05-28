@@ -9,13 +9,13 @@ import { Product } from '../services/product';
 export class CataloguePageComponent implements OnInit {
 
   @Input()
-  private currentPage: number = 1;
+  currentPage: number = 1;
 
   @Input()
-  private totalPages: number = 0;
+  totalPages: number = 0;
 
   @Output()
-  private changePage: EventEmitter<number> = new EventEmitter<number>();
+  changePage: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
