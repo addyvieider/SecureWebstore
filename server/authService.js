@@ -5,8 +5,6 @@ module.exports = {
 
     login: function (req, res) {
 
-        console.log("login");
-
         let con = dbConnector.createConnection();
 
         con.query('SELECT * from user WHERE username = ?', [req.body.username], (err, result) => {
@@ -51,8 +49,6 @@ module.exports = {
 
     register: function (req, res) {
 
-        console.log("register");
-
         let con = dbConnector.createConnection();
         let hashedPw = hashPassword(req.body.password);
 
@@ -66,7 +62,7 @@ module.exports = {
             (err, result) => {
 
                 if (err) {
-                    if('ER_DUP_ENTRY' == err.code) {
+                    if ('ER_DUP_ENTRY' == err.code) {
                         res.status(409).end();
                     } else {
                         res.status(500).end();
@@ -85,8 +81,6 @@ module.exports = {
 
     logout: function (req, res) {
 
-        console.log("logout");
-
         if (req.session && req.session.user) {
             req.session.regenerate(err => {
                 if (err) {
@@ -95,16 +89,14 @@ module.exports = {
                 } else {
                     res.status(200).end();
                 }
-            }); 
+            });
         } else {
-            console.log("not found");
+            //console.log("not found");
             res.status(404).end();
         }
     },
 
     isAdmin: function (req, res) {
-
-        console.log("isadmin");
 
         if (req.session && req.session.user) {
             res.status(200).send(JSON.stringify(req.session.user.admin));
@@ -116,14 +108,76 @@ module.exports = {
 
     isLoggedIn: function (req, res) {
 
-        console.log("islogin");
-    
-        if(req.session && req.session.user) {
+        if (req.session && req.session.user) {
             res.status(200).send(JSON.stringify(req.session.user.username));
         } else {
             res.status(200).send(JSON.stringify(false));
         }
-    
+
+    },
+
+    getUsers: function (req, res) {
+
+        if (req.session && req.session.user) {
+
+            if (req.session.user.admin) {
+                let con = dbConnector.createConnection();
+                con.query('SELECT * from user', (err, result) => {
+
+                    if (err) {
+                        console.log(err);
+                        res.status(500).end();
+                        return;
+                    }
+
+                    res.status(200).send(JSON.stringify(result));
+
+                    dbConnector.endConnection(con);
+
+                });
+
+            } else {
+                res.status(403).end();
+            }
+
+        } else {
+            res.status(401).end();
+        }
+
+    },
+
+    saveUser: function (req, res) {
+
+        if (req.session && req.session.user) {
+
+            if (req.session.user.admin) {
+                let con = dbConnector.createConnection();
+                let user = req.body.user;
+                con.query('UPDATE user SET name = ?, surname = ?, email = ?, admin = ? ' +
+                    'WHERE username = ?', [user.name, user.surname, user.email, user.admin, user.username] ,(err, result) => {
+
+                        if (err) {
+                            console.log(err);
+                            res.status(500).end();
+                            return;
+                        }
+
+                        res.status(200).send(JSON.stringify(result));
+
+                        dbConnector.endConnection(con);
+
+                    });
+
+            } else {
+                res.status(403).end();
+            }
+
+        } else {
+            res.status(401).end();
+        }
+
+
+
     }
 
 }
@@ -137,16 +191,5 @@ function hashPassword(password, salt) {
         salt: salt,
         hash: hash
     };
-
-}
-
-function saveSessionId(username, session) {
-
-    let con = dbConnector.createConnection();
-    con.query('UPDATE user set session=? where username = ?', [session, username], (err, result) => {
-        if (err) console.log(err);
-        if (result) console.log(result);
-    });
-    con.end();
 
 }

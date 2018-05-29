@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from'@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CatalogueComponent } from './catalogue/catalogue.component';
@@ -55,7 +54,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     HttpModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [AuthService, AuthGuard, AdminGuard, CartService],
   bootstrap: [AppComponent]

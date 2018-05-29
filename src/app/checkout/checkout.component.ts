@@ -48,6 +48,12 @@ export class CheckoutComponent implements OnInit {
 
       this.checkoutService.checkout(name, address);
 
+    } else {
+
+      for(let control in this.checkoutForm.controls) {
+        this.checkoutForm.controls[control].markAsTouched()
+      }
+
     }
 
   }

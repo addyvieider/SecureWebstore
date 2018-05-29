@@ -30,7 +30,7 @@ export class ProductLoaderService {
     try {
       return Math.ceil(this.totalProducts / this.pageSize);
     } catch (e) {
-      console.error(e);
+      //console.error(e);
       return 0;
     }
   }
@@ -46,7 +46,7 @@ export class ProductLoaderService {
     //this.products.push(new Product("2", "Test 2", 234));
 
     this.http.get('/api/products?page='+this.currentPage+"&display="+this.pageSize).subscribe(res => { 
-      console.log(res);
+      //console.log(res);
       
       for (let p in res["products"]) {
         this.products.push(this.productFactory(res["products"][p]));

@@ -23,15 +23,16 @@ export class ProductPageComponent implements OnInit {
       this.productLoaderService.getProduct(params.id).subscribe(productList => {
 
         this.packageTypes = [];
-        for(let p in productList) {
-         this.packageTypes.push(this.productLoaderService.packageFactory(productList[p]));
+        for (let p in productList) {
+          this.packageTypes.push(this.productLoaderService.packageFactory(productList[p]));
         }
 
         this.selectionForm.controls['packageType'].setValue(this.packageTypes[0]);
         this.product = this.productLoaderService.productFactory(productList[0]);
-        console.log(this.product);})
-      );    
-   }
+        //console.log(this.product);
+      })
+    );
+  }
 
   ngOnInit() {
 
@@ -46,11 +47,11 @@ export class ProductPageComponent implements OnInit {
 
   addToCart() {
 
-    if(this.selectionForm.valid) {
+    if (this.selectionForm.valid) {
       //console.log(this.selectionForm.value.packageType);
       this.cartService.addToCart(this.product, this.selectionForm.value.packageType, this.selectionForm.value.quantity);
 
-      console.log(this.cartService.getCartContent());
+      //console.log(this.cartService.getCartContent());
     }
 
   }

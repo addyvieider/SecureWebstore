@@ -17,20 +17,22 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit() {
     this.checkoutService.getOrders().subscribe(res => {
-      this.orders = JSON.parse(res);
+      for(let r in res) {
+        this.orders.push(res[r]);
+      }
     }, err => {
-      console.log(err);
+      //console.log(err);
     })
   }
 
   logout() {
 
-    console.log("logout");
+    //console.log("logout");
     this.authService.logOut().subscribe(() => {
       this.router.navigate(['shop']);
     }, error => {
       this.router.navigate(['login']);
-      console.log(error);
+      //console.log(error);
     });
   }
 

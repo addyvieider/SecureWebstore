@@ -1,3 +1,60 @@
-<p>
-  admin works!
-</p>
+<div class="columns">
+  <div class="column is-half">
+    <h1 class="title">Orders</h1>
+    <table class="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Products</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.id }}</td>
+          <td>{{ order.name }}</td>
+          <td>{{ order.address }}</td>
+          <td>
+            <p *ngFor="let product of order.product">{{ product.quantity }} x {{ product.product }} {{ product.package }}</p>
+          </td>
+        </tr>
+    </table>
+  </div>
+  <div class="column is-half">
+      <h1 class="title">Users</h1>
+      <table class="table is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <div *ngIf="selectedUser == user; then edit else display"></div>
+              <ng-template #display>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.surname }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.admin }}</td>
+                  <td><button class="button is-dark is-small" (click)="editUser(user)">Edit</button></td>
+              </ng-template>
+              <ng-template #edit>
+                  <td>{{ user.username }}</td>
+                  <td><input class="input" type="text" [(ngModel)]="user.name"></td>
+                  <td><input class="input" type="text" [(ngModel)]="user.surname"></td>
+                  <td><input class="input" type="text" [(ngModel)]="user.email"></td>
+                  <td><input type="checkbox" [(ngModel)]="user.admin"></td>
+                  <td><button class="button is-dark is-small" (click)="saveUser(user)">Save</button></td>
+              </ng-template>
+              
+            </tr>
+        </table>
+  </div>
+</div>

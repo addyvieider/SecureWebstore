@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, trigger } from '@angular/core';
 import { CartService } from './cart.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Order } from './order';
 
 @Injectable()
 export class CheckoutService {
@@ -28,7 +29,7 @@ export class CheckoutService {
       } else {
         alert("Something went wrong");
       }
-      console.log(err);
+      //console.log(err);
     });
 
   }
@@ -38,7 +39,39 @@ export class CheckoutService {
 
     return this.http.get('/api/orders', {
       withCredentials: true
-    })
+    });
+
+  }
+
+  getAllOrders(): Observable<Order[]> {
+
+    return this.http.get('/api/allorders', {
+      withCredentials: true
+    }).map(res => {
+
+      let orders = [];
+      for(let r in res) {
+
+        let order = res[r];
+        let id = order["id"];
+        let old = orders.findIndex(o => {
+          return o.id == id;
+        });
+        
+        if(old >= 0) {
+
+          orders[old].product.push({product: order["product"], package: order["package"], quantity: order["quantity"]});
+
+        } else {
+
+          orders.push(new Order(id, order["name"], order["address"], [{product: order["product"], package: order["package"], quantity: order["quantity"]}]));
+
+        }
+      }
+
+      return orders;
+
+    });
 
   }
 

@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password).subscribe(
         response => {
           if(response) {
-            console.log("Logged in");
+            //console.log("Logged in");
 
             this.loginEvent.emit();
             this.router.navigate(['shop']);
@@ -69,9 +69,15 @@ export class LoginComponent implements OnInit {
           }
         },
         error => {
-          console.log(error);         
+          //console.log(error);         
         }
       )
+
+    } else {
+
+      for(let control in this.loginForm.controls) {
+        this.loginForm.controls[control].markAsTouched()
+      }
 
     }
 
@@ -92,6 +98,16 @@ export class LoginComponent implements OnInit {
               this.userExistend = true;
             }
           });;
+
+    } else {
+      
+      for(let control in this.registerForm.controls) {
+        this.registerForm.controls[control].markAsTouched()
+      }
+
+      for(let control in this.passwordGroup.controls) {
+        this.passwordGroup.controls[control].markAsTouched()
+      }
 
     }
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { subscribeOn } from 'rxjs/operator/subscribeOn';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { User } from './user';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
       surname: surname
     }).map((respone: any) => {
 
-      console.log("Registered");
+      //console.log("Registered");
       return respone;
 
     });
@@ -35,34 +36,34 @@ export class AuthService {
       username: username,
       password: password
     }, {
-      withCredentials: true
-    }).map((res: Response) => {
-      if(res) {
-        localStorage.setItem(this.username, res[this.username]);
-      }
-      return res;
-    }).catch(error => {
-      console.log(error);
-      return error;
-    });
+        withCredentials: true
+      }).map((res: Response) => {
+        if (res) {
+          localStorage.setItem(this.username, res[this.username]);
+        }
+        return res;
+      }).catch(error => {
+        //console.log(error);
+        return error;
+      });
 
   }
 
   logOut(): Observable<any> {
 
     return this.http.post('/api/logout', {},
-    {
-      withCredentials: true
-    }).map((res: Response) => {
-      console.log(res);
-      localStorage.clear();
-      
-      return res;
-    }).catch(err => {
-      localStorage.clear();
-      console.log(err);
-      return err;
-    });
+      {
+        withCredentials: true
+      }).map((res: Response) => {
+        //console.log(res);
+        localStorage.clear();
+
+        return res;
+      }).catch(err => {
+        localStorage.clear();
+        //console.log(err);
+        return err;
+      });
 
   }
 
@@ -77,13 +78,13 @@ export class AuthService {
     return await this.http.get('/api/login', {
       withCredentials: true
     }).map((res: Response) => {
-      if(res) {
+      if (res) {
 
         return !!res;
-      
+
       } else {
-        
-        if(!!localStorage.getItem(this.username)){
+
+        if (!!localStorage.getItem(this.username)) {
           alert("Invalid session");
           localStorage.clear();
         }
@@ -96,16 +97,54 @@ export class AuthService {
 
   async isAdmin(): Promise<boolean> {
 
-    return await this.http.get('/api/admin', 
-    {
+    return await this.http.get('/api/admin',
+      {
+        withCredentials: true
+      }).map((res: Response) => {
+        if (res) {
+          return !!res;
+        } else {
+          return false;
+        }
+      }).toPromise();
+  }
+
+  getUsers(): Observable<User[]> {
+
+    return this.http.get('/api/users', {
       withCredentials: true
     }).map((res: Response) => {
-      if(res) {
-        return !!res;
-      } else {
-        return false;
+
+      let users: User[] = [];
+      for (let r in res) {
+
+        let user = res[r];
+        users.push(new User(user["username"], user["name"], user["surname"], user["email"], !!user["admin"]));
+
       }
-    }).toPromise();
+
+      return users;
+
+    });
+
+  }
+
+  saveUser(user: User): Observable<boolean> {
+
+    return this.http.post('/api/user', {
+      user: user
+    }, {
+        withCredentials: true
+      }).map(res => {
+
+        return !!res;
+
+      }, err => {
+
+        return false;
+
+      });
+
   }
 
 }

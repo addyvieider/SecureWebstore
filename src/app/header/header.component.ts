@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  title = 'Web Store';
+  title = 'Beer Store';
 
   constructor(private authService: AuthService) { }
 
