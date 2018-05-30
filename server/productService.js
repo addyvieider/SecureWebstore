@@ -4,6 +4,13 @@ module.exports = {
 
   getProducts: function (req, res) {
 
+    if(!req.query) {
+
+      res.status(400).end();
+      return;
+
+  }
+
     let page = parseInt(req.query.page) || 1;
     let display = parseInt(req.query.display) || 10;
     let skip = (page - 1) * display;
@@ -38,6 +45,13 @@ module.exports = {
   },
 
   getProduct: function (req, res) {
+
+    if(!req.query) {
+
+      res.status(400).end();
+      return;
+
+  }
 
     let con = dbConnector.createConnection();
 

@@ -5,6 +5,13 @@ module.exports = {
 
     placeOrder: function (req, res) {
 
+        if(!req.body) {
+
+            res.status(400).end();
+            return;
+
+        }
+
         if (req.session && req.session.user) {
 
             if (req.body.orderItems && req.body.orderItems.length > 0 && req.body.name && req.body.address) {

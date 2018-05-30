@@ -49,6 +49,13 @@ module.exports = {
 
     register: function (req, res) {
 
+        if(!req.body) {
+
+            res.status(400).end();
+            return;
+
+        }
+
         let con = dbConnector.createConnection();
         let hashedPw = hashPassword(req.body.password);
 
@@ -147,6 +154,13 @@ module.exports = {
     },
 
     saveUser: function (req, res) {
+
+        if(!req.body) {
+
+            res.status(400).end();
+            return;
+
+        }
 
         if (req.session && req.session.user) {
 
