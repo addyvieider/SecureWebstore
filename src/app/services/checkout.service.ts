@@ -1,9 +1,10 @@
-import { Injectable, trigger } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CartService } from './cart.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Order } from './order';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class CheckoutService {
@@ -47,7 +48,7 @@ export class CheckoutService {
 
     return this.http.get('/api/allorders', {
       withCredentials: true
-    }).map(res => {
+    }).pipe(map(res => {
 
       let orders = [];
       for(let r in res) {
@@ -71,7 +72,7 @@ export class CheckoutService {
 
       return orders;
 
-    });
+    }));
 
   }
 

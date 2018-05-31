@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { subscribeOn } from 'rxjs/operator/subscribeOn';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { Observable, of } from 'rxjs';
 import { User } from './user';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -21,12 +19,12 @@ export class AuthService {
       password: password,
       name: name,
       surname: surname
-    }).map((respone: any) => {
+    }).pipe(map((respone: any) => {
 
       //console.log("Registered");
       return respone;
 
-    });
+    }));
 
   }
 
@@ -37,15 +35,16 @@ export class AuthService {
       password: password
     }, {
         withCredentials: true
-      }).map((res: Response) => {
+      }).pipe(map((res: Response) => {
         if (res) {
           localStorage.setItem(this.username, res[this.username]);
         }
         return res;
-      }).catch(error => {
+      }),
+      catchError(error => {
         //console.log(error);
         return error;
-      });
+      }));
 
   }
 
@@ -54,16 +53,17 @@ export class AuthService {
     return this.http.post('/api/logout', {},
       {
         withCredentials: true
-      }).map((res: Response) => {
+      }).pipe(map((res: Response) => {
         //console.log(res);
         localStorage.clear();
 
         return res;
-      }).catch(err => {
+      }),
+      catchError(err => {
         localStorage.clear();
         //console.log(err);
         return err;
-      });
+      }));
 
   }
 
@@ -77,7 +77,7 @@ export class AuthService {
 
     return await this.http.get('/api/login', {
       withCredentials: true
-    }).map((res: Response) => {
+    }).pipe(map((res: Response) => {
       if (res) {
 
         return !!res;
@@ -91,7 +91,7 @@ export class AuthService {
 
         return false;
       }
-    }).toPromise();
+    })).toPromise();
 
   }
 
@@ -100,20 +100,20 @@ export class AuthService {
     return await this.http.get('/api/admin',
       {
         withCredentials: true
-      }).map((res: Response) => {
+      }).pipe(map((res: Response) => {
         if (res) {
           return !!res;
         } else {
           return false;
         }
-      }).toPromise();
+      })).toPromise();
   }
 
   getUsers(): Observable<User[]> {
 
     return this.http.get('/api/users', {
       withCredentials: true
-    }).map((res: Response) => {
+    }).pipe(map((res: Response) => {
 
       let users: User[] = [];
       for (let r in res) {
@@ -125,7 +125,7 @@ export class AuthService {
 
       return users;
 
-    });
+    }));
 
   }
 
@@ -135,15 +135,13 @@ export class AuthService {
       user: user
     }, {
         withCredentials: true
-      }).map(res => {
+      }).pipe(map(res => {
 
         return !!res;
 
-      }, err => {
-
-        return false;
-
-      });
+      }), catchError(err => {
+        return of(false);
+      }));
 
   }
 
