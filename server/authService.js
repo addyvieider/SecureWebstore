@@ -56,6 +56,11 @@ module.exports = {
 
         }
 
+        if(req.body.password && typeof(req.body.password) == String && req.body.password.length < 8) {
+            res.status(400).end();
+            return;
+        }
+
         let con = dbConnector.createConnection();
         let hashedPw = hashPassword(req.body.password);
 

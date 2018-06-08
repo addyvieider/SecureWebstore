@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.passwordGroup = new FormGroup({
-      password: new FormControl('', Validators.required),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmpassword: new FormControl('', [
         Validators.required
       ])
